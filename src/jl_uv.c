@@ -403,6 +403,14 @@ DLLEXPORT int jl_fs_unlink(char *path)
     return ret;
 }
 
+DLLEXPORT int jl_fs_rename(char *src_path, char *dst_path)
+{
+    uv_fs_t req;
+    int ret = uv_fs_rename(jl_io_loop, &req, src_path, dst_path, NULL);
+    uv_fs_req_cleanup(&req);
+    return ret;
+}
+
 DLLEXPORT int jl_fs_write(int handle, char *buf, size_t len, size_t offset)
 {
     uv_fs_t req;

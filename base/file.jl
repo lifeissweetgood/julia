@@ -63,7 +63,7 @@ end
 
 rm(path::String) = FS.unlink(path)
 cp(src::String, dst::String) = run(`cp $src $dst`)
-mv(src::String, dst::String) = run(`mv $src $dst`)
+mv(src::String, dst::String) = FS.rename(src, dst)
 touch(path::String) = run(`touch $path`)
 
 # Obtain a temporary filename.

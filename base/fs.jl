@@ -20,6 +20,7 @@ export File,
        # close,
        write,
        unlink,
+       rename,
        JL_O_WRONLY,
        JL_O_RDONLY,
        JL_O_RDWR,
@@ -101,6 +102,16 @@ function unlink(f::File)
     unlink(f.path)
     f
 end
+
+# For move
+function rename(src::String, dst::String)
+    err = ccall(:jl_fs_rename, Int32, (Ptr{Uint8}, Ptr{Uint8}), bytestring(src),
+                bytestring(dst))
+    uv_error("rename", err)
+end
+
+# For copy
+# TODO!
 
 function write(f::File, buf::Ptr{Uint8}, len::Integer, offset::Integer=-1)
     if !f.open
